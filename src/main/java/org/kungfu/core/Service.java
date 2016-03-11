@@ -27,10 +27,17 @@ public class Service {
 		return Json.getJson().toJson(model);
 	}*/
 	
-	public static boolean isExist(String sql, Object... params) {
+	protected static boolean isExist(String sql, Object... params) {
 		// sql : select id from table_name where  ...
 		return Db.queryInt(sql, params) == null ? false : true;
 	}
+	
+	protected static int batchDelete(String tableName, String ids) {
+
+		return Db.update(String.format("delete from %s where id in (%s) ", tableName, ids));
+	}
+	
+	
 	
 	// 获取动态SQL占位符
 	private static String placeholder(String dataType) {
