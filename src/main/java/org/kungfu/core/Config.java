@@ -3,6 +3,7 @@ package org.kungfu.core;
 import com.jfinal.config.JFinalConfig;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.plugin.druid.DruidPlugin;
+import com.jfinal.plugin.redis.RedisPlugin;
 
 /**
  * created by xiaofeixiang on 2016/1/9 15:28:18.
@@ -45,4 +46,14 @@ public abstract class Config extends JFinalConfig {
 	public static C3p0Plugin createC3p0Plugin(String jdbcUrl, String userName, String password) {
 		return new C3p0Plugin(jdbcUrl, userName, password);
 	}
+	
+	/**
+	 * @param cacheName
+	 * @param host
+	 * @return
+	 */
+	public static RedisPlugin createRedisPlugin(String cacheName, String host) {
+		return new RedisPlugin(cacheName, host);
+	}
+	
 }

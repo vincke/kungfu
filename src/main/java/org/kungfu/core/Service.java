@@ -7,6 +7,7 @@ import org.kungfu.util.ModelKit;
 import org.kungfu.util.MySqlKit;
 import org.kungfu.util.StrKit;
 
+import com.jfinal.json.Json;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Record;
@@ -17,15 +18,21 @@ import com.jfinal.plugin.activerecord.Record;
 public class Service {
 	private static final String columnSql = "SELECT COLUMN_NAME as columnName, DATA_TYPE as dataType FROM INFORMATION_SCHEMA.COLUMNS  WHERE TABLE_SCHEMA = ? and TABLE_NAME = ? ";
 	
-	/*@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected static Model<? extends Model> Json2Model(String jsonStr, Class clazz) {
-		return Json.getJson().parse(jsonStr, clazz);
+	public static Model<?> json2Model(String jsonStr, Class<?> clazz) {
+		return (Model<?>) Json.getJson().parse(jsonStr, clazz);
 	}
 
-	@SuppressWarnings("rawtypes")
-	protected static  String model2Json(Model<? extends Model> model) {
+	public static  String model2Json(Model<?> model) {
 		return Json.getJson().toJson(model);
-	}*/
+	}
+	
+	public boolean save(Model<?> model) {
+		return model.save();
+	}
+	
+	public boolean update(Model<?> model) {
+		return model.update();
+	}
 	
 	protected static boolean isExist(String sql, Object... params) {
 		// sql : select id from table_name where  ...

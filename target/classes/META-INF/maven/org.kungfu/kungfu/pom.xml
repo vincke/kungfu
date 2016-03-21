@@ -24,14 +24,22 @@
 		<rest-version>1.1.0</rest-version>
 		
 		<mysql-version>5.1.20</mysql-version>
-		<druid-version>1.0.5</druid-version>
+		<druid-version>1.0.18</druid-version>
 		<c3p0-version>0.9.5.1</c3p0-version>
 		<ehcache-version>2.6.6</ehcache-version>
-		<freemarker-version>2.3.20</freemarker-version>
+		<jedis-version>2.7.2</jedis-version>
+		<freemarker-version>2.3.21</freemarker-version>
+		
 		
 		<beanutils-version>1.9.2</beanutils-version>
 		<fastjson-version>1.2.6</fastjson-version>
+		<jackson-core-version>2.7.0</jackson-core-version>
 		<jackson-databind-version>2.7.0</jackson-databind-version>
+		<commons-io-version>2.4</commons-io-version>
+		<commons-pool-version>1.6</commons-pool-version>
+		<objenesis-version>2.1</objenesis-version>
+		<fst-version>2.29</fst-version>
+		<guava-verison>18.0</guava-verison>
 		
 		<log4j-version>1.2.17</log4j-version>
 		<slf4j-version>1.6.1</slf4j-version>
@@ -70,12 +78,34 @@
 			<artifactId>druid</artifactId>
 			<version>${druid-version}</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>${commons-pool-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.objenesis</groupId>
+			<artifactId>objenesis</artifactId>
+			<version>${objenesis-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.ruedigermoeller</groupId>
+			<artifactId>fst</artifactId>
+			<version>${fst-version}</version>
+		</dependency>
+		
 		
 		<!-- cache -->
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-core</artifactId>
 			<version>${ehcache-version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>${jedis-version}</version>
 		</dependency>
 		
 		<!-- template language -->
@@ -87,14 +117,32 @@
 		
 		<!-- tools -->
 		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io-version}</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 			<version>${beanutils-version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava-verison}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>${fastjson-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson-core-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
