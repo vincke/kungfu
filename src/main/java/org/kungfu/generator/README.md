@@ -1,6 +1,6 @@
 ###代码生成器变种###
 基于jfinal源码中的generator进行改造和增强。其中包括：<br>
-1.BaseModel 和Model 生成路径做了调整；<br><br>
+1.BaseModel 和Model 生成路径做了调整；<br>
 2.新增了API/Service/Controller/WebPage等代码生成功能，基于前端Web框架BJUI。<br>
 3.封装了基本的数据CRUD操作。基本可以达到生成即可运行。<br><br>
 
