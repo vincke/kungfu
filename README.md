@@ -1,4 +1,4 @@
-### kungfu ###
+# kungfu #
 a rest framework.used jfinal and resty. to speed development as the goal.
 
 ###features###
