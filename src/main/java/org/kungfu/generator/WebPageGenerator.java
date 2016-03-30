@@ -57,7 +57,7 @@ public class WebPageGenerator {
 			"<#include \"/common/template.html\" />%n" +
 			"<div class=\"bjui-pageContent\">%n" +
 			"\t<form method=\"post\" action=\"%s/save\" data-toggle=\"validate\">%n" +
-			"\t\t<input type=\"hidden\" name=\"id\" value=\"${id}\">%n" +
+			"\t\t<input type=\"hidden\" name=\"id\" value=\"${%s.id}\">%n" +
 			"\t\t<table class=\"table table-condensed table-hover\">%n" +
 			"\t\t\t<tbody>%n";
 	
@@ -170,7 +170,7 @@ public class WebPageGenerator {
 	
 	protected void genEditPageFormBegin(TableMeta tableMeta, StringBuilder ret) {
 		String s = tableMeta.name.toLowerCase().replaceAll("_", "");
-		ret.append(String.format(editPageBeginPartTemplate, s));
+		ret.append(String.format(editPageBeginPartTemplate, s, StrKit.firstCharToLowerCase(tableMeta.modelName)));
 	}
 	
 	protected void genEditPageFormContent(TableMeta tableMeta, StringBuilder ret) {

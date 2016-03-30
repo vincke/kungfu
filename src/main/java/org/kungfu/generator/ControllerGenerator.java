@@ -17,6 +17,7 @@ public class ControllerGenerator {
 	protected String packageTemplate =
 			"package %s.%s;%n%n";
 	protected String importTemplate =
+			"import java.util.Date;%n%n" +
 			"import com.jfinal.plugin.activerecord.Page;%n%n" +
 			"import org.kungfu.core.Controller;%n%n" +
 			"import %s.ext.render.BjuiRender;%n" +
@@ -40,8 +41,10 @@ public class ControllerGenerator {
 			"\t\t%s model = getModel(%s.class, \"\");%n" +
 			"\t\tboolean flag = false;%n%n" +
 			"\t\tif (model.getInt(\"id\") == null) {%n" +
+			"\t\t\tmodel.setCreateTime(new Date());%n" +
 			"\t\t\tflag = %sService.save(model);%n" +
 			"\t\t} else {%n" +
+			"\t\t\tmodel.setEditTime(new Date());%n" +
 			"\t\t\tflag = %sService.update(model);%n" +
 			"\t\t}%n%n" +
 			"\t\tif (flag)%n" +
