@@ -1,5 +1,8 @@
 package org.kungfu.util;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by yangfq on 15/11/19.
  */
@@ -89,6 +92,15 @@ public class StrKit {
 			sb.append(stringArray[i]);
 		}
 		return sb.toString();
+	}
+	
+	public static boolean hasDigit(String content) {
+		boolean flag = false;
+		Pattern p = Pattern.compile(".*\\d+.*");
+		Matcher m = p.matcher(content);
+		if (m.matches())
+			flag = true;
+		return flag;
 	}
 	
 }

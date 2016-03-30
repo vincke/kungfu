@@ -34,6 +34,23 @@ public class Service {
 		return model.update();
 	}
 	
+	public int batchSave(List<Model<?>> list) {
+		return Db.batchSave(list, list.size()).length;
+	}
+	
+	public int batchUpdate(List<Model<?>> list) {
+		return Db.batchUpdate(list, list.size()).length;
+	}
+	
+	public int saveOrUpdate(List<Model<?>> list, boolean flag) {
+		if (flag) {
+			return Db.batchUpdate(list, list.size()).length;
+		}
+		else {
+			return Db.batchSave(list, list.size()).length;
+		}
+	}
+	
 	protected static boolean isExist(String sql, Object... params) {
 		// sql : select id from table_name where  ...
 		return Db.queryInt(sql, params) == null ? false : true;
