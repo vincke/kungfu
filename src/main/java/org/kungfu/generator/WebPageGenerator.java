@@ -72,8 +72,8 @@ public class WebPageGenerator {
 	protected String formControlTextAreaTemplate =		
 			"\t\t\t\t\t\t<textarea name=\"%s\" cols=\"87\" rows=\"1\" data-toggle=\"autoheight\" %s>${%s.%s}</textarea>%n";
 	protected String formControlRadioTemplate =		
-			"\t\t\t\t\t\t<input type=\"radio\" name=\"%s\" data-toggle=\"icheck\" value=\"true\" data-rule=\"checked\" data-label=\"是&nbsp;&nbsp;\">%n" +
-			"\t\t\t\t\t\t<input type=\"radio\" name=\"%s\" data-toggle=\"icheck\" value=\"false\" data-label=\"否\">%n";
+			"\t\t\t\t\t\t<input type=\"radio\" name=\"%s\" data-toggle=\"icheck\" value=\"true\" data-rule=\"checked\" data-label=\"是&nbsp;&nbsp;\" <#if true==%s.%s>checked</#if>>%n" +
+			"\t\t\t\t\t\t<input type=\"radio\" name=\"%s\" data-toggle=\"icheck\" value=\"false\" data-label=\"否\" <#if false==%s.%s>checked</#if>>%n";
 	protected String formControlDateTemplate =		
 			"\t\t\t\t\t\t<input type=\"text\" name=\"%s\" value=\"${%s.%s}\" data-toggle=\"datepicker\" %s size=\"30\">%n";
 	
@@ -160,8 +160,8 @@ public class WebPageGenerator {
 	
 	protected void genIndexPageListContent(TableMeta tableMeta, StringBuilder ret) {
 		for (ColumnMeta columnMeta : tableMeta.columnMetas) 
-			if (noFilter(columnMeta))
-				ret.append(String.format(indexPageListContentTemplate, String.format("${item.%s}", columnMeta.name)));
+			if (noFilter(columnMeta)) 
+				ret.append(String.format(indexPageListContentTemplate, String.format("${item.%s}", columnMeta.type.contains("BIT") ? columnMeta.name + "?c" : columnMeta.name)));
 	}
 	
 	protected void genIndexPageEndPart(StringBuilder ret) {
@@ -205,7 +205,7 @@ public class WebPageGenerator {
 				ret.append(String.format(formControlDateTemplate, columnMeta.name, StrKit.firstCharToLowerCase(tableMeta.modelName), columnMeta.name, dataRule));
 			}
 			else if (columnMeta.type.contains("BIT")) 
-				ret.append(String.format(formControlRadioTemplate, columnMeta.name, columnMeta.name));
+				ret.append(String.format(formControlRadioTemplate, columnMeta.name,  StrKit.firstCharToLowerCase(tableMeta.modelName), columnMeta.name, columnMeta.name,  StrKit.firstCharToLowerCase(tableMeta.modelName), columnMeta.name));
 			else if (isTextArea)
 				ret.append(String.format(formControlTextAreaTemplate, columnMeta.name, dataRule, StrKit.firstCharToLowerCase(tableMeta.modelName), columnMeta.name));
 			else
