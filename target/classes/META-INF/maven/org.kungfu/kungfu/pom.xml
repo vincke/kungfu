@@ -161,6 +161,12 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j-version}</version>
 		</dependency>
-	</dependencies>
 	
+		<!-- <dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency> -->
+	</dependencies>
 </project>
