@@ -9,12 +9,13 @@ import com.jfinal.plugin.activerecord.dialect.Dialect;
 /**
  * 生成器
  * 1：生成时会强制覆盖 Base model、MappingKit、DataDictionary，建议不要修改三类文件，在数据库有变化重新生成一次便可
- * 2：生成  Model 不会覆盖已经存在的文件，Model 通常会被人为修改和维护
+ * 2：生成  Model、 ModelAPI、Service、Controller和 WebPages 不会覆盖已经存在的文件，因为开发过程中 通常会被人为修改和维护
  * 3：MappingKit 文件默认会在生成 Model 文件的同时生成
  * 4：DataDictionary 文件默认不会生成。只有在设置 setGenerateDataDictionary(true)后，会在生成 Model文件的同时生成
- * 5：可以通过继承 BaseModelGenerator、ModelGenerator、MappingKitGenerator、DataDictionaryGenerator
+ * 5：可以通过继承 BaseModelGenerator、ModelGenerator、MappingKitGenerator、DataDictionaryGenerator、modelAPIGenerator、
+ *   ServiceGenerator、ControllerGenerator、WebPageGenerator、RoutesGenerator
  *   来创建自定义生成器，然后使用 Generator 的 setter 方法指定自定义生成器来生成
- * 6：生成模板文字属性全部为 protected 可见性，方便自定义 Generator 生成符合。。。。
+ * 6：生成模板文字属性全部为 protected 可见性，方便自定义 Generator 生成
  */
 public class Generator {
 	

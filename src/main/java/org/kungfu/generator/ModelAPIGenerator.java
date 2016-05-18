@@ -16,7 +16,7 @@ public class ModelAPIGenerator {
 	protected String packageTemplate =
 			"package %s.%s;%n%n";
 	protected String importTemplate =
-			//"import java.util.List;%n%n" +
+			//"import com.jfinal.plugin.activerecord.Model;%n%n" +
 			"import com.jfinal.plugin.activerecord.Page;%n%n" +
 			"import %s.%s.%s;%n%n";
 	protected String classDefineTemplate =
@@ -32,7 +32,7 @@ public class ModelAPIGenerator {
 			"\tPage<%s> page(int pageNumber, int pageSize, String orderField, String orderDirection, String where);%n%n";
 	
 	protected String saveOrUpdateTemplate =
-			"\tint saveOrUpdate(List<%s> list);%n%n";
+			"\tboolean saveOrUpdate(%s model, boolean isSave);%n%n";
 	
 	protected String findByIdTemplate =
 			"\t%s findById(Object idValue);%n%n";
@@ -81,7 +81,7 @@ public class ModelAPIGenerator {
 		genInterfaceDefine(tableMeta, ret);
 		genPageSampleMethodName(tableMeta, ret);
 		genPageClauseMethodName(tableMeta, ret);
-		//genSaveOrUpdateMethodName(tableMeta, ret);
+		genSaveOrUpdateMethodName(tableMeta, ret);
 		genFindByIdMethodName(tableMeta, ret);
 		genDeleteMethodName(ret);
 		ret.append(String.format("}%n"));
@@ -89,11 +89,11 @@ public class ModelAPIGenerator {
 	}
 	
 	protected void genPackage(TableMeta tableMeta, StringBuilder ret) {
-		ret.append(String.format(packageTemplate, modelPackageName, tableMeta.name.toLowerCase().replaceAll("_", "")));
+		ret.append(String.format(packageTemplate, modelPackageName, tableMeta.modelName.toLowerCase().replaceAll("_", "")));
 	}
 	
 	protected void genImport(TableMeta tableMeta, StringBuilder ret) {
-		ret.append(String.format(importTemplate, modelPackageName, tableMeta.name.toLowerCase().replaceAll("_", ""), tableMeta.modelName));
+		ret.append(String.format(importTemplate, modelPackageName, tableMeta.modelName.toLowerCase().replaceAll("_", ""), tableMeta.modelName));
 	}
 	
 	protected void genInterfaceDefine(TableMeta tableMeta, StringBuilder ret) {
@@ -109,7 +109,7 @@ public class ModelAPIGenerator {
 	}
 	
 	protected void genSaveOrUpdateMethodName(TableMeta tableMeta, StringBuilder ret) {
-		ret.append(String.format(saveOrUpdateTemplate, tableMeta.modelName));
+		ret.append(String.format(saveOrUpdateTemplate, StrKit.firstCharToUpperCase(tableMeta.modelName)));
 	}
 	
 	protected void genFindByIdMethodName(TableMeta tableMeta, StringBuilder ret) {
@@ -134,11 +134,11 @@ public class ModelAPIGenerator {
 	 * 若 model 文件存在，则不生成，以免覆盖用户手写的代码
 	 */
 	protected void wirtToFile(TableMeta tableMeta) throws IOException {
-		File dir = new File(modelOutputDir + File.separator + tableMeta.name.toLowerCase().replaceAll("_", "") );
+		File dir = new File(modelOutputDir + File.separator + tableMeta.modelName.toLowerCase().replaceAll("_", "") );
 		if (!dir.exists())
 			dir.mkdirs();
 		
-		String target = modelOutputDir + File.separator + tableMeta.name.toLowerCase().replaceAll("_", "") + File.separator + tableMeta.modelName + "API.java";
+		String target = modelOutputDir + File.separator + tableMeta.modelName.toLowerCase().replaceAll("_", "") + File.separator + tableMeta.modelName + "API.java";
 		
 		File file = new File(target);
 		if (file.exists()) {

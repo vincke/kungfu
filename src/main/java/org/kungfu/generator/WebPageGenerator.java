@@ -65,7 +65,7 @@ public class WebPageGenerator {
 	protected String tdBeginTemplate = "\t\t\t\t\t<td>%n";
 	protected String tdColspan2BeginTemplate = "\t\t\t\t\t<td colspan=\"2\">%n";
 	// form label
-	protected String formLabelTemplate = "\t\t\t\t\t\t<label class=\"control-label x100\">%s</label>%n" ;
+	protected String formLabelTemplate = "\t\t\t\t\t\t<label class=\"control-label x100\">%s：</label>%n" ;
 	// form control
 	protected String formControlTextTemplate =		
 			"\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"%s\" value=\"${%s.%s}\" %s size=\"30\"/>%n";
@@ -138,12 +138,15 @@ public class WebPageGenerator {
 	}
 	
 	protected void genIndexPageBeginPart(TableMeta tableMeta, StringBuilder ret) {
-		String s = tableMeta.name.toLowerCase().replaceAll("_", "");
+		String s = tableMeta.modelName.toLowerCase().replaceAll("_", "");
 		ret.append(String.format(indexPageBeginPartTemplate, s, s, s, s, s, s, s));
 	}
 	
 	private boolean noFilter(ColumnMeta columnMeta) {  
-		if (columnMeta.isPrimaryKey.equalsIgnoreCase("PRI") || columnMeta.name.equals("Explains") || columnMeta.name.equals("Remarks") || columnMeta.name.equals("Logo_Photo_URL") || columnMeta.name.equals("User_Code") || columnMeta.name.equals("User_Name") || columnMeta.name.equals("Create_Time") || columnMeta.name.equals("Edit_Time"))
+		if (columnMeta.isPrimaryKey.equalsIgnoreCase("PRI") || columnMeta.name.equals("Explains") || columnMeta.name.equals("Remarks") 
+				|| columnMeta.name.equals("Logo_Photo_URL") || columnMeta.name.equals("User_Code") || columnMeta.name.equals("User_Name") 
+				|| columnMeta.name.equals("Create_Time") || columnMeta.name.equals("Edit_Time")
+				|| columnMeta.name.equals("userCode")  || columnMeta.name.equals("createTime") || columnMeta.name.equals("editTime"))
 			return false;
 		return true;
 	}
@@ -176,7 +179,8 @@ public class WebPageGenerator {
 	protected void genEditPageFormContent(TableMeta tableMeta, StringBuilder ret) {
 		int count = 0;
 		for (ColumnMeta columnMeta : tableMeta.columnMetas) {
-			if (columnMeta.name.equalsIgnoreCase("id") || columnMeta.name.equals("User_Code") || columnMeta.name.equals("User_Name")  || columnMeta.name.equals("Create_Time") || columnMeta.name.equals("Edit_Time"))
+			if (columnMeta.name.equalsIgnoreCase("id") || columnMeta.name.equals("User_Code") || columnMeta.name.equals("User_Name")  || columnMeta.name.equals("Create_Time") || columnMeta.name.equals("Edit_Time")
+					|| columnMeta.name.equals("userCode") || columnMeta.name.equals("user_id")   || columnMeta.name.equals("createTime") || columnMeta.name.equals("editTime") || columnMeta.name.equals("create_at") || columnMeta.name.equals("edit_at"))
 				continue;
 			
 			boolean isTextArea = false;
@@ -244,11 +248,11 @@ public class WebPageGenerator {
 	 * 若 webPage 文件存在，则不生成，以免覆盖用户手写的代码
 	 */
 	protected void wirtToFile(TableMeta tableMeta, String fileName) throws IOException {
-		File dir = new File(webPageOutputDir + File.separator + tableMeta.name.toLowerCase().replaceAll("_", "") );
+		File dir = new File(webPageOutputDir + File.separator + tableMeta.modelName.toLowerCase().replaceAll("_", "") );
 		if (!dir.exists())
 			dir.mkdirs();
 		
-		String target = webPageOutputDir + File.separator + tableMeta.name.toLowerCase().replaceAll("_", "") + File.separator + fileName;
+		String target = webPageOutputDir + File.separator + tableMeta.modelName.toLowerCase().replaceAll("_", "") + File.separator + fileName;
 		
 		File file = new File(target);
 		if (file.exists()) {

@@ -34,20 +34,20 @@ public class Service {
 		return model.update();
 	}
 	
-	public int batchSave(List<Model<?>> list) {
+	public int batchSave(List<? extends Model<?>> list) {
 		return Db.batchSave(list, list.size()).length;
 	}
 	
-	public int batchUpdate(List<Model<?>> list) {
+	public int batchUpdate(List<? extends Model<?>> list) {
 		return Db.batchUpdate(list, list.size()).length;
 	}
 	
-	public int saveOrUpdate(List<Model<?>> list, boolean flag) {
+	public int saveOrUpdate(List<? extends Model<?>> list, boolean flag) {
 		if (flag) {
-			return Db.batchUpdate(list, list.size()).length;
+			return Db.batchSave(list, list.size()).length;
 		}
 		else {
-			return Db.batchSave(list, list.size()).length;
+			return Db.batchUpdate(list, list.size()).length;
 		}
 	}
 	

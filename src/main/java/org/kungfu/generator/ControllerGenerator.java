@@ -17,7 +17,7 @@ public class ControllerGenerator {
 	protected String packageTemplate =
 			"package %s.%s;%n%n";
 	protected String importTemplate =
-			"import java.util.Date;%n%n" +
+			//"import java.util.Date;%n%n" +
 			"import com.jfinal.plugin.activerecord.Page;%n%n" +
 			"import org.kungfu.core.Controller;%n%n" +
 			"import %s.ext.render.BjuiRender;%n" +
@@ -36,18 +36,13 @@ public class ControllerGenerator {
 			"\t\tsetAttr(\"page\", page);%n" +
 			"\t}%n%n";
 	
+	protected String dateTimeTemplate = "\t\t\tmodel.set%d(new Date());%n";
+	
 	protected String saveTemplate =
-			"\t public void save() {%n" +
+			"\tpublic void save() {%n" +
 			"\t\t%s model = getModel(%s.class, \"\");%n" +
-			"\t\tboolean flag = false;%n%n" +
-			"\t\tif (model.getInt(\"id\") == null) {%n" +
-			"\t\t\tmodel.setCreateTime(new Date());%n" +
-			"\t\t\tflag = %sService.save(model);%n" +
-			"\t\t} else {%n" +
-			"\t\t\tmodel.setEditTime(new Date());%n" +
-			"\t\t\tflag = %sService.update(model);%n" +
-			"\t\t}%n%n" +
-			"\t\tif (flag)%n" +
+			"\t\tboolean isSave = model.getId() == null;%n%n" +
+			"\t\tif (%sService.saveOrUpdate(model, isSave))%n" +
 			"\t\t\trender(BjuiRender.callback(MODULE_NAME));%n" +
 			"\t\telse%n" +
 			"\t\t\trender(BjuiRender.error());%n" +
@@ -115,11 +110,11 @@ public class ControllerGenerator {
 	}
 	
 	protected void genPackage(TableMeta tableMeta, StringBuilder ret) {
-		ret.append(String.format(packageTemplate, modelPackageName, tableMeta.name.toLowerCase().replaceAll("_", "")));
+		ret.append(String.format(packageTemplate, modelPackageName, tableMeta.modelName.toLowerCase().replaceAll("_", "")));
 	}
 	
 	protected void genImport(TableMeta tableMeta, StringBuilder ret) {
-		ret.append(String.format(importTemplate, modelPackageName.subSequence(0, modelPackageName.lastIndexOf('.')), modelPackageName, tableMeta.name.toLowerCase().replaceAll("_", ""), tableMeta.modelName));
+		ret.append(String.format(importTemplate, modelPackageName.subSequence(0, modelPackageName.lastIndexOf('.')), modelPackageName, tableMeta.modelName.toLowerCase().replaceAll("_", ""), tableMeta.modelName));
 	}
 	
 	protected void genClassDefine(TableMeta tableMeta, StringBuilder ret) {
@@ -130,8 +125,17 @@ public class ControllerGenerator {
 		ret.append(String.format(indexTemplate, tableMeta.modelName, StrKit.firstCharToLowerCase(tableMeta.modelName)));
 	}
 	
+	/*private boolean fillDateTimeColumn(TableMeta tableMeta) {
+		for (ColumnMeta columnMeta : tableMeta.columnMetas) 
+			if (columnMeta.name.contains("Time") || columnMeta.name.contains("Date")) 
+				return true;
+		return false;
+	}*/
+	
 	protected void genSaveMethod(TableMeta tableMeta, StringBuilder ret) {
-		ret.append(String.format(saveTemplate, tableMeta.modelName, tableMeta.modelName, StrKit.firstCharToLowerCase(tableMeta.modelName), StrKit.firstCharToLowerCase(tableMeta.modelName)));
+		//if (fillDateTimeColumn(tableMeta))
+			
+		ret.append(String.format(saveTemplate, tableMeta.modelName, tableMeta.modelName, StrKit.firstCharToLowerCase(tableMeta.modelName)));
 	}
 	
 	protected void genEditMethod(TableMeta tableMeta, StringBuilder ret) {
@@ -155,11 +159,11 @@ public class ControllerGenerator {
 	 * 若 model 文件存在，则不生成，以免覆盖用户手写的代码
 	 */
 	protected void wirtToFile(TableMeta tableMeta) throws IOException {
-		File dir = new File(modelOutputDir + File.separator + tableMeta.name.toLowerCase().replaceAll("_", "") );
+		File dir = new File(modelOutputDir + File.separator + tableMeta.modelName.toLowerCase().replaceAll("_", "") );
 		if (!dir.exists())
 			dir.mkdirs();
 		
-		String target = modelOutputDir + File.separator + tableMeta.name.toLowerCase().replaceAll("_", "") + File.separator + tableMeta.modelName + "Controller.java";
+		String target = modelOutputDir + File.separator + tableMeta.modelName.toLowerCase().replaceAll("_", "") + File.separator + tableMeta.modelName + "Controller.java";
 		
 		File file = new File(target);
 		if (file.exists()) {

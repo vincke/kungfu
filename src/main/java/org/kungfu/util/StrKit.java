@@ -103,4 +103,24 @@ public class StrKit {
 		return flag;
 	}
 	
+	/**
+	 * case-when  to CaseWhen
+	 * @return
+	 */
+	public static String toUpperCamelCase(String str) {
+		str = format(str.replaceAll("-", "_"));
+		return str.substring(0, 1).toUpperCase() + str.substring(1);
+	}
+
+	public static String concat(String ... strings) {
+		String str = "";
+		for (String string : strings) {
+			str = str.concat(string);
+		}
+		return str;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(toUpperCamelCase("case-when"));
+	}
 }

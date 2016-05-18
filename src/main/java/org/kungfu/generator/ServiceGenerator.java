@@ -17,7 +17,7 @@ public class ServiceGenerator {
 	protected String packageTemplate =
 			"package %s.%s;%n%n";
 	protected String importTemplate =
-			//"import java.util.List;%n%n" +
+			"import java.util.Date;%n%n" +
 			//"import com.jfinal.plugin.activerecord.Db;%n" +
 			"import com.jfinal.plugin.activerecord.Page;%n%n" +
 			"import org.kungfu.core.Service;%n%n" +
@@ -29,23 +29,30 @@ public class ServiceGenerator {
 		"public class %sService extends Service implements %sAPI {%n";
 	
 	protected String pageSampleTemplate =
-			"%n\tpublic Page<%s> page(int pageNumber, int pageSize) {%n" +
+			"\t@Override%n" + 
+			"\tpublic Page<%s> page(int pageNumber, int pageSize) {%n" +
 			"\t\treturn %s.dao.paginate(pageNumber, pageSize, \"select *\", \"from %s order by id asc\");%n" +
 			"\t}%n%n";
 	
 	protected String pageClauseTemplate =
+			"\t@Override%n" + 
 			"\tpublic Page<%s> page(int pageNumber, int pageSize, String orderField, String orderDirection, String where) {%n" +
 			"\t\treturn %s.dao.paginate(pageNumber, pageSize, \"select * \", String.format(\"from %s where 1=1 %s order by %s %s\", where, orderField, orderDirection));%n" +
 			"\t}%n%n";
 	
 	protected String saveOrUpdateTemplate =
-			"\tpublic int saveOrUpdate(List<%s> list) {%n" +
-			"\t\tif (list.get(0).getId() != null) {%n" +
-			"\t\t\treturn Db.batchUpdate(list, list.size()).length;%n" +
+			"\t@Override%n" + 
+			"\tpublic boolean saveOrUpdate(%s model, boolean isSave) {%n" +
+			"\t\tboolean flag = false;%n%n" +
+			"\t\tif (model.getId() == null) {%n" +
+			"\t\t\t//model.setCreateTime(new Date());%n" +
+			"\t\t\tflag = model.save();%n" +
 			"\t\t}%n" +
 			"\t\telse {%n" +
-			"\t\t\treturn Db.batchSave(list, list.size()).length;%n" +
+			"\t\t\t//model.setEditTime(new Date());%n" +
+			"\t\t\tflag = model.update();%n" +
 			"\t\t}%n" +
+			"\t\treturn flag;%n" +
 			"\t}%n%n";
 	
 	protected String findByIdTemplate =
@@ -101,7 +108,7 @@ public class ServiceGenerator {
 		genClassDefine(tableMeta, ret);
 		genPageSampleMethod(tableMeta, ret);
 		genPageClauseMethod(tableMeta, ret);
-		//genSaveOrUpdateMethod(tableMeta, ret);
+		genSaveOrUpdateMethod(tableMeta, ret);
 		genFindByIdMethod(tableMeta, ret);
 		genDeleteMethod(tableMeta, ret);
 		ret.append(String.format("}%n"));
@@ -109,11 +116,11 @@ public class ServiceGenerator {
 	}
 	
 	protected void genPackage(TableMeta tableMeta, StringBuilder ret) {
-		ret.append(String.format(packageTemplate, modelPackageName, tableMeta.name.toLowerCase().replaceAll("_", "")));
+		ret.append(String.format(packageTemplate, modelPackageName, tableMeta.modelName.toLowerCase().replaceAll("_", "")));
 	}
 	
 	protected void genImport(TableMeta tableMeta, StringBuilder ret) {
-		ret.append(String.format(importTemplate, modelPackageName, tableMeta.name.toLowerCase().replaceAll("_", ""), tableMeta.modelName));
+		ret.append(String.format(importTemplate, modelPackageName, tableMeta.modelName.toLowerCase().replaceAll("_", ""), tableMeta.modelName));
 	}
 	
 	protected void genClassDefine(TableMeta tableMeta, StringBuilder ret) {
@@ -129,7 +136,7 @@ public class ServiceGenerator {
 	}
 	
 	protected void genSaveOrUpdateMethod(TableMeta tableMeta, StringBuilder ret) {
-		ret.append(String.format(saveOrUpdateTemplate, tableMeta.modelName));
+		ret.append(String.format(saveOrUpdateTemplate, StrKit.firstCharToUpperCase(tableMeta.modelName), tableMeta.modelName));
 	}
 	
 	protected void genFindByIdMethod(TableMeta tableMeta, StringBuilder ret) {
@@ -154,11 +161,11 @@ public class ServiceGenerator {
 	 * 若 model 文件存在，则不生成，以免覆盖用户手写的代码
 	 */
 	protected void wirtToFile(TableMeta tableMeta) throws IOException {
-		File dir = new File(modelOutputDir + File.separator + tableMeta.name.toLowerCase().replaceAll("_", "") );
+		File dir = new File(modelOutputDir + File.separator + tableMeta.modelName.toLowerCase().replaceAll("_", "") );
 		if (!dir.exists())
 			dir.mkdirs();
 		
-		String target = modelOutputDir + File.separator + tableMeta.name.toLowerCase().replaceAll("_", "") + File.separator + tableMeta.modelName + "Service.java";
+		String target = modelOutputDir + File.separator + tableMeta.modelName.toLowerCase().replaceAll("_", "") + File.separator + tableMeta.modelName + "Service.java";
 		
 		File file = new File(target);
 		if (file.exists()) {

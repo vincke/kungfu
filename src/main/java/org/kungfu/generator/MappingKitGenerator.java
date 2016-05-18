@@ -101,7 +101,7 @@ public class MappingKitGenerator {
 	}
 	
 	protected void genModelImport(TableMeta tableMeta, StringBuilder ret) {
-		ret.append(String.format(importModelTemplate, modelPackageName, tableMeta.name.toLowerCase().replaceAll("_", ""), tableMeta.modelName));
+		ret.append(String.format(importModelTemplate, modelPackageName, tableMeta.modelName.toLowerCase().replaceAll("_", ""), tableMeta.modelName));
 	}
 	
 	protected void genPackage(StringBuilder ret) {

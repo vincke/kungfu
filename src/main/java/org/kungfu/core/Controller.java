@@ -1,7 +1,14 @@
 package org.kungfu.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.regex.Pattern;
 
 import com.jfinal.plugin.ehcache.CacheKit;
 
@@ -110,4 +117,40 @@ public class Controller extends com.jfinal.core.Controller {
     	
     	return paramsMap;
     }
+    
+    public <T> List<T> getModelList(Class<T> modelClass, String modelName) {
+		Pattern p = Pattern.compile(modelName + "\\[\\d\\].[a-zA-z0-9]+");
+		Map<String, String[]> parasMap = getParaMap();
+		String paraKey;
+		Set<String> modelPrefix = new HashSet<String>();
+		for (Entry<String, String[]> e : parasMap.entrySet()) {
+			paraKey = e.getKey();
+			if (p.matcher(paraKey).find()) {
+				modelPrefix.add(paraKey.split("\\.")[0]);
+			}
+		}
+		List<T> resultList = new ArrayList<T>();
+		for (String modelName2 : modelPrefix) {
+			resultList.add(getModel(modelClass, modelName2));
+		}
+		return resultList;
+	}
+   
+    public <T> List<T> getModelOrderList(Class<T> modelClass, String modelName) {
+  		Pattern p = Pattern.compile(modelName + "\\[\\d\\].[a-zA-z0-9]+");
+  		Map<String, String[]> parasMap = getParaMap();
+  		String paraKey;
+  		Set<String> modelPrefix = new TreeSet<String>();
+  		for (Entry<String, String[]> e : parasMap.entrySet()) {
+  			paraKey = e.getKey();
+  			if (p.matcher(paraKey).find()) {
+  				modelPrefix.add(paraKey.split("\\.")[0]);
+  			}
+  		}
+  		List<T> resultList = new ArrayList<T>();
+  		for (String modelName2 : modelPrefix) {
+  			resultList.add(getModel(modelClass, modelName2));
+  		}
+  		return resultList;
+  	}
 }

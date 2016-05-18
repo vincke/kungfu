@@ -107,11 +107,17 @@ public class RoutesGenerator {
 	protected void wirtToFile(StringBuilder ret) {
 		FileWriter fw = null;
 		try {
-		/*	File dir = new File(routesOutputDir);
+			File dir = new File(routesOutputDir.substring(0, routesOutputDir.lastIndexOf('/')) + File.separator + "routes" );
 			if (!dir.exists())
-				dir.mkdirs();*/
+				dir.mkdirs();
 			
 			String target = routesOutputDir.substring(0, routesOutputDir.lastIndexOf('/')) + File.separator + "routes" + File.separator + routesClassName + ".java";
+			
+			File file = new File(target);
+			if (file.exists()) {
+				return ;	// 若 Model 存在，不覆盖
+			}
+			
 			fw = new FileWriter(target);
 			fw.write(ret.toString());
 		}
