@@ -121,6 +121,6 @@ public class StrKit {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(toUpperCamelCase("case-when"));
+		System.out.println(toUpperCamelCase("order-by"));
 	}
 }
