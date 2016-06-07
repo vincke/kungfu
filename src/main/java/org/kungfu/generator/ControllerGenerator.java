@@ -43,9 +43,9 @@ public class ControllerGenerator {
 			"\t\t%s model = getModel(%s.class, \"\");%n" +
 			"\t\tboolean isSave = model.getId() == null;%n%n" +
 			"\t\tif (%sService.saveOrUpdate(model, isSave))%n" +
-			"\t\t\trender(BjuiRender.callback(MODULE_NAME));%n" +
+			"\t\t\tredirect(MODULE_NAME);%n" +
 			"\t\telse%n" +
-			"\t\t\trender(BjuiRender.error());%n" +
+			"\t\t\trenderError(501);%n" +
 			"\t}%n%n";
 	
 	protected String editTemplate =
@@ -59,7 +59,7 @@ public class ControllerGenerator {
 	protected String deleteTemplate =
 			"\tpublic void delete() {%n%n" +
 			"\t\t%sService.delete(getPara(0));%n%n" +
-			"\t\trender(BjuiRender.callback(MODULE_NAME));%n" +
+			"\t\tredirect(MODULE_NAME);%n" +
 			"\t}%n%n";
 
 	
