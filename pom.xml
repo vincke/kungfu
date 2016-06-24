@@ -2,20 +2,41 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.kungfu</groupId>
   <artifactId>kungfu</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
   
    <name>${project.groupId}:${project.artifactId}</name>
-   <description>a rest framework</description>
+   <description>a rest framework, base on JFinal.</description>
    <url>https://github.com/ticktack/kungfu.git</url>
    
+   <issueManagement>
+		<system>Github Issue</system>
+		<url>http://github.com/ticktack/kungfu/issues</url>
+	</issueManagement>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
    <developers>
     <developer>
+      <id>kungfu</id>
       <name>xiaofeixiang</name>
       <email>yfq2010@gmail.com</email>
-      <organization>65ing</organization>
-      <organizationUrl>http://www.65ing.com</organizationUrl>
+      <url>http://www.65ing.com</url>
     </developer>
   </developers>
+  <scm>
+		<connection>scm:git:git@github.com:ticktack/kungfu.git</connection>
+		<developerConnection>scm:git:git@github.com:ticktack/kungfu.git</developerConnection>
+		<url>git@github.com:ticktack/kungfu.git</url>
+	</scm>
+	
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
   
   <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
