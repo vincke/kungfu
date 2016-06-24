@@ -17,8 +17,8 @@ public class RoutesGenerator {
 	protected String importModelTemplate =
 			"import %s.%s.%sController;%n";
 	protected String importTemplate =
-			"%nimport com.jfinal.config.Routes;%n%n" +
-			"%nimport %s.IndexController;%n%n";
+			"%nimport com.jfinal.config.Routes;%n%n";
+			//"%nimport %s.IndexController;%n%n";
 	protected String packageTemplate =
 		"package %s.routes;%n%n";
 	protected String classDefineTemplate =
@@ -27,8 +27,8 @@ public class RoutesGenerator {
 		" */%n" +
 		"public class %s extends Routes {%n%n";
 	protected String configMethodDefineTemplate =
-			"\tpublic void config() {%n" + 
-			"\t\tadd(\"/\", IndexController.class, \"/module\");%n";;
+			"\tpublic void config() {%n" ; 
+			//"\t\tadd(\"/\", IndexController.class, \"/module\");%n";;
 	protected String configMethodContentTemplate =
 				"\t\tadd(\"/%s\", %sController.class, \"/module/%s\");%n";
 	
@@ -77,7 +77,7 @@ public class RoutesGenerator {
 	}
 	
 	protected void genModelImport(TableMeta tableMeta, StringBuilder ret) {
-		ret.append(String.format(importModelTemplate, modelPackageName, tableMeta.name.toLowerCase().replaceAll("_", ""), tableMeta.modelName));
+		ret.append(String.format(importModelTemplate, modelPackageName, tableMeta.modelName.toLowerCase().replaceAll("_", ""), tableMeta.modelName));
 	}
 	
 	protected void genPackage(StringBuilder ret) {

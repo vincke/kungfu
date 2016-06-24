@@ -80,10 +80,10 @@ public class ModelAPIGenerator {
 		genImport(tableMeta, ret);
 		genInterfaceDefine(tableMeta, ret);
 		genPageSampleMethodName(tableMeta, ret);
-		genPageClauseMethodName(tableMeta, ret);
+		//genPageClauseMethodName(tableMeta, ret);
 		genSaveOrUpdateMethodName(tableMeta, ret);
 		genFindByIdMethodName(tableMeta, ret);
-		genDeleteMethodName(ret);
+		//genDeleteMethodName(ret);
 		ret.append(String.format("}%n"));
 		tableMeta.modelContent = ret.toString();
 	}

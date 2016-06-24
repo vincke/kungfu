@@ -107,10 +107,10 @@ public class ServiceGenerator {
 		genImport(tableMeta, ret);
 		genClassDefine(tableMeta, ret);
 		genPageSampleMethod(tableMeta, ret);
-		genPageClauseMethod(tableMeta, ret);
+		//genPageClauseMethod(tableMeta, ret);
 		genSaveOrUpdateMethod(tableMeta, ret);
 		genFindByIdMethod(tableMeta, ret);
-		genDeleteMethod(tableMeta, ret);
+		//genDeleteMethod(tableMeta, ret);
 		ret.append(String.format("}%n"));
 		tableMeta.modelContent = ret.toString();
 	}

@@ -32,7 +32,7 @@
 		
 		
 		<beanutils-version>1.9.2</beanutils-version>
-		<fastjson-version>1.2.6</fastjson-version>
+		<fastjson-version>1.2.10</fastjson-version>
 		<jackson-core-version>2.7.0</jackson-core-version>
 		<jackson-databind-version>2.7.0</jackson-databind-version>
 		<commons-io-version>2.4</commons-io-version>
