@@ -102,8 +102,6 @@ public class CommonKit {
 	 *            原来BEAN
 	 * @param result
 	 *            结果BEAN
-	 * @throws InvocationTargetException
-	 * @throws IllegalAccessException
 	 */
 	public static void differBeanNotNullPropertyToOtherBean(Object dest, Object orig, Object result) throws IllegalAccessException, InvocationTargetException {
 		// Validate existence of the specified beans
@@ -154,8 +152,6 @@ public class CommonKit {
 	 *            要copy到的bean
 	 * @param source
 	 *            原来BEAN
-	 * @throws InvocationTargetException
-	 * @throws IllegalAccessException
 	 */
 	public static void copyProperties(Object target, Object source){
 		// Validate existence of the specified beans
