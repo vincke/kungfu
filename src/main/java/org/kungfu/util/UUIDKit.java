@@ -36,6 +36,7 @@ public class UUIDKit {
 
 	/**
 	测试信息啦
+	删除啦
 	**/
 
 }
