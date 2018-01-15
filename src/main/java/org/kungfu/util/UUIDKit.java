@@ -13,6 +13,9 @@ public class UUIDKit {
 		return uuid.toString();// 标准UUID
 	}
 
+	/**
+	* 测试信息
+	*/
 	public static String getUUID2() {
 		String str = getUUID();
 		// 去掉"-"符号
