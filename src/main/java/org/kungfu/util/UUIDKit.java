@@ -34,4 +34,8 @@ public class UUIDKit {
 		return ss;
 	}
 
+	/**
+	测试信息啦
+	**/
+
 }
