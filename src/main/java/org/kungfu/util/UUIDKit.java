@@ -27,6 +27,7 @@ public class UUIDKit {
 
 	// 获得指定数量的UUID
 	public static String[] getUUID2(int number) {
+		System.out.println("test info");
 		if (number < 1) {
 			return null;
 		}
